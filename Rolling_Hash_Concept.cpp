@@ -1,8 +1,4 @@
-//Rotate String :  apple (org word)
-//  pleap : After Roate 
-// If we roate above word 2 times, we can recover orginal word.
-//in this program , check if given test word can be recovers and if yes... how many times need be rotate
-
+//Rolling Hash Concept
 
 #define _CRT_SECURE_NO_WARNINGS
 
