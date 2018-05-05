@@ -1,8 +1,4 @@
 
-//Rotate String :  apple (org word)
-//  pleap : After Roate 
-// If we roate above word 2 times, we can recover orginal word.
-//in this program , check if given test word can be recovers and if yes... how many times need be rotate
 
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -45,8 +41,8 @@ int GenerateHashAndCheck(char str[], int n)
 	for (i = n;str[i];i++)
 	{
 
-		//new_hash = (old_hash - (h factor - char value of last char)
-		new_hash = d * (old_hash - (h * str[i - n]));
+		new_hash = d * old_hash - (h * str[i - n]));
+		new_hash = new_hash % MODULAS;	
 		new_hash = new_hash + str[i];
 		new_hash = new_hash % MODULAS;
 
@@ -83,7 +79,7 @@ int main()
 	//Kindly for every different pattern length, need to recalulate the hash for Test String as well
 	// Can not be use the same Hash value 
 
-	for (i = 0; i < search_pattern_len - 1; i++)
+	for (i = 0; i < search_pattern_len; i++)
 	{
 		h = (h * d) % MODULAS;
 	}
