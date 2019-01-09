@@ -1,0 +1,46 @@
+//Program : Largest Sum Contiguous SubArray
+//Write an efficient program to find the sum of contiguous subarray 
+//within a one-dimensional array of numbers which has the largest sum.
+//Input : -2 -3 4 -1 -2 1 5 -3
+//Output  : 7
+#include <stdio.h>
+#include <conio.h>
+
+#define S 8
+int a[S];
+
+int MaxSubArraySum(int size)
+{
+	int x,y;
+	x=y=0;
+	int i;
+	for(i=0;i<size;i++)
+	{
+		x = x + a[i];
+		if(x < 0)
+			x = 0;
+		if(y < x )	
+			y = x;	
+	}
+		
+	return y;	
+}
+int main()
+{
+	
+	freopen("input.txt","r",stdin);
+	int x;
+	int i;
+	scanf("%d",&x);
+	
+	for(i=0;i<x;i++)
+	{
+		scanf("%d",&a[i]);	
+		printf("%d ",a[i]);
+	}	
+	
+	int res = MaxSubArraySum(x);
+	
+	printf("\nMax Sum is %d\n",res);
+	getch();
+}
