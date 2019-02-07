@@ -1,97 +1,73 @@
 
-
-
-#define _CRT_SECURE_NO_WARNINGS
-
+//Rolling Hash with 1-D data
 #include <stdio.h>
 #include <conio.h>
 
-
-#define MODULAS  1007
-
-int pattern_hash = 0;
-
-//Important to remind the concept of h
-int h = 1;
-//Magic Number for Hash Calulation
-int d = 31;
+char pat[4]= "def";
 
 
-int GetHash(char str[], int count)
+#define P 1007
+#define rint register int
+#define uint unsigned int
+
+uint power;
+
+//Get Hash for Pattern and as well for old hash value in text data
+unsigned int GetHash(char *str, int n)
 {
-	int i = 0;
-	int hash = 0;
-	for (i = 0;i<count;i++)
-	{
-		hash = (hash * d + str[i]) % MODULAS;
-	}
+	rint i;
+	unsigned int hash=0;
 
-	printf("hash is %d\n", hash);
-	return hash;
+	for(i=0;i<n;i++)	
+		hash = hash*P + str[i]; // P Prime Number 
+
+	return hash;	
 }
 
-int GenerateHashAndCheck(char str[], int n)
+
+void init(int n)
 {
-	int old_hash = 0;
-	int new_hash = 0;
-	int  i = 0;
+	//Get the Power value : it is changed if pattern length change
+	//only required during hash generation from text
+	rint i=0;
+	unsigned int pw=1;
+	for(i=0;i<n;i++)
+		pw = pw*P;
+	power = pw;		
 
-	old_hash= GetHash(str, n);
-
-	for (i = n;str[i];i++)
-	{
-
-		new_hash = d * old_hash - (h * str[i - n]));
-		new_hash = new_hash % MODULAS;	
-		new_hash = new_hash + str[i];
-		new_hash = new_hash % MODULAS;
-
-		if (new_hash < 0)
-			new_hash = new_hash + MODULAS;
-
-		printf("new hash is %d\n",new_hash);
-
-		old_hash = new_hash;
-
-		if (pattern_hash == new_hash)
-		{
-			printf("string found\n");
-			return 1;
-		}
-
-	}
-	
-	return 0;
 }
 int main()
 {
-
-	char str[] = "djsahdjhlasnkdjasdssjdhjasdwertyuiopasdfghjkjdlaksasdfghjklzxcvbnmqwertyuiopasdsadsadsadsadasdadasdaqweqwdqweasdfghjklzxcvbnmqwertyuiqwqwww";
-	char find[] = "asdfghjklzxcvbnmqwertyuioy";
 	
+	printf("Pattern Matching ....\n");	
+	unsigned int phash =0;
+	int i=0;
+	int plen =3;
+	char txt[10] = "abcghidef";
+	
+	
+	init(plen);
 
-	int search_pattern_len = 26;
-	int res = 0;
-	int i;
 
-	// The value of h would be "pow(d, M-1)%q : Polynominal Hash concept"
-	//Quite important to remind this
-	//Kindly for every different pattern length, need to recalulate the hash for Test String as well
-	// Can not be use the same Hash value 
-
-	for (i = 0; i < search_pattern_len; i++)
+	//Get the Hash value for Pattern
+	printf("Pattern String %s\n",pat);
+	phash = GetHash(pat,plen);
+	
+	unsigned int Oldhash=0;
+	Oldhash = GetHash(txt,plen);
+	printf("Old Hash is %d\n",Oldhash);
+	
+	//Sliding window Concept : For Rolling Hash Calculation
+	for(i=plen;txt[i];i++)
 	{
-		h = (h * d) % MODULAS;
-	}
-	//Calulate the Hash value of Search Pattern
-	pattern_hash = GetHash(find, search_pattern_len);
-	res = GenerateHashAndCheck(str, search_pattern_len);
-	
-	if (res)
-		printf("Pattern found\n");
-	else
-		printf("Pattern not found\n");
-	_getch();
+		Oldhash = Oldhash*P + txt[i] - (txt[i-plen] *power); //power: Polinoimial of Prime Number								
 
+		printf("#Hash is %d\n",Oldhash);
+
+		if(Oldhash == phash)
+			printf("Pattern found\n"
+	}
+	_getch();
 	return 0;
 }
+
